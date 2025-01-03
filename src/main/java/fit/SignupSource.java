@@ -59,7 +59,7 @@ public class SignupSource {
     }
 
     private boolean isEmailUsed(String email) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Msys\\eclipse-workspace\\fit\\src\\main\\resources\\Accounts.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/Accounts.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] details = line.split(",");
@@ -77,7 +77,7 @@ public class SignupSource {
 
     // دالة لحفظ المستخدم في ملف
     private void saveUserToFile(User user) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\Msys\\eclipse-workspace\\fit\\src\\main\\resources\\Accounts.txt", true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/Accounts.txt", true))) {
             writer.write(user.getUsername() + "," + user.getLocation() + "," + user.getEmail() + "," + user.getPassword() + "," + user.getRole());
             writer.newLine();
         } catch (IOException e) {

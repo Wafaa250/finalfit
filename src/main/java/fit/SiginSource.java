@@ -21,7 +21,7 @@ public class SiginSource {
 
     public void checkLoginValidInFile(String userName, String pass) {
         // تحديد المسار الكامل للملف
-        String filePath = "C:\\Users\\Msys\\eclipse-workspace\\fit\\src\\main\\resources\\Accounts.txt";
+        String filePath = "src/main/resources/Accounts.txt";
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;

@@ -1,7 +1,8 @@
 Wafaa,Nablus,Wafaa@gmail.com,N002,Admin
 Rasmiya,Nablus,Rasmiya@gmail.com,AA258,Instructor
-Hiba,Nablus,HibaLO@gmail.com,H1414,Client
 fadi,Nablus,fadi@gmail.com,ab258,Instructor
 client,Nablus,client@gmail.com,client123,Client
 qasem,Nablus,qasim12@gmail.com,wafaa22,Client
-Khaled123,Nablus,khaled123@gmail.com,Khaled234,Admin
+Hiba,Nablus,HibaLO@gmail.com,123456h,Client
+Sara,Nablus,sara@gmail.com,H1515,Client
+

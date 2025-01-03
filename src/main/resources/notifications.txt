@@ -8,18 +8,4 @@ Recipient:Rasmiya,Message:Client Hiba enrolled in Yoga for Beginners
 Recipient:Hiba,Message:Program updated: Yoga for Beginners
 Recipient:Rasmiya,Message:New message from Hiba: I have a question about my schedule.
 Recipient:Hiba,Message:Program canceled: Yoga for Beginners
-Recipient:Hiba,Message:New program available: Yoga for Beginners
-Recipient:Rasmiya,Message:Client Hiba enrolled in Yoga for Beginners
-Recipient:Hiba,Message:Program updated: Yoga for Beginners
-Recipient:Rasmiya,Message:New message from Hiba: I have a question about my schedule.
-Recipient:Hiba,Message:Program canceled: Yoga for Beginners
-Recipient:Hiba,Message:New program available: Yoga for Beginners
-Recipient:Rasmiya,Message:Client Hiba enrolled in Yoga for Beginners
-Recipient:Hiba,Message:Program updated: Yoga for Beginners
-Recipient:Rasmiya,Message:New message from Hiba: I have a question about my schedule.
-Recipient:Hiba,Message:Program canceled: Yoga for Beginners
-Recipient:Hiba,Message:New program available: Yoga for Beginners
-Recipient:Rasmiya,Message:Client Hiba enrolled in Yoga for Beginners
-Recipient:Hiba,Message:Program updated: Yoga for Beginners
-Recipient:Rasmiya,Message:New message from Hiba: I have a question about my schedule.
-Recipient:Hiba,Message:Program canceled: Yoga for Beginners
+

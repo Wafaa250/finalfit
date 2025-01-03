@@ -8,6 +8,7 @@ public class SubscriptionManagementSource {
     private Vector<SubscriptionPlan> plans = new Vector<>();
     private Vector<Subscription> subscriptions = new Vector<>();
     private Map<String, String> users = new HashMap<>(); // حفظ الـ Client ID بناءً على البريد الإلكتروني
+    private Map<String, String> usernameMap = new HashMap<>();
 
     // تحميل بيانات المستخدمين من الملف
     public SubscriptionManagementSource() {
@@ -15,20 +16,26 @@ public class SubscriptionManagementSource {
     }
 
     // تحميل بيانات المستخدمين من ملف Accounts.txt
+ // تحميل بيانات المستخدمين من ملف Accounts.txt
     private void loadUsers() {
-        String filePath = "C:\\Users\\Msys\\eclipse-workspace\\fit\\src\\main\\resources\\Accounts.txt"; // تأكد من المسار الصحيح للملف
+        String filePath = "src/main/resources/Accounts.txt";
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] user = line.split(",");
-                String clientId = user[3]; // الـ Client ID في هذا المثال هو العنصر الرابع
-                String email = user[2]; // البريد الإلكتروني في هذا المثال هو العنصر الثالث
-                users.put(email, clientId);  // تخزين البريد الإلكتروني مع الـ Client ID
+                if (user.length >= 5) {
+                    String username = user[0];
+                    String email = user[2]; // البريد الإلكتروني
+                    String clientId = user[3]; // Client ID
+                    users.put(email, clientId); // تخزين البريد الإلكتروني و Client ID
+                    usernameMap.put(clientId, username); // تخزين Client ID والاسم
+                }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error reading accounts file: " + e.getMessage());
         }
     }
+
 
     // البحث عن الـ Client ID باستخدام البريد الإلكتروني
     public String getClientId(String email) {
@@ -110,7 +117,7 @@ public class SubscriptionManagementSource {
 
     // دالة لحفظ خطط الاشتراك في الملف
     private void savePlansToFile() {
-        String filePath = "C:\\Users\\Msys\\eclipse-workspace\\fit\\src\\main\\resources\\SubscriptionPlans.txt";
+        String filePath = "src/main/resources/SubscriptionPlans.txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (SubscriptionPlan plan : plans) {
                 writer.write(plan.getName() + "," + plan.getPrice());
@@ -120,19 +127,51 @@ public class SubscriptionManagementSource {
             e.printStackTrace();
         }
     }
+    private String getEmailFromClientId(String clientId) {
+        for (Map.Entry<String, String> entry : users.entrySet()) {
+            if (entry.getValue().equals(clientId)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    private String getUsernameFromEmail(String email) {
+        // لتنفيذ هذه الدالة، يجب أن يكون لديك خريطة تربط البريد الإلكتروني بأسماء المستخدمين
+        return usernameMap.get(email);  // يجب تعريف usernameMap وتعبئته بمناسبة تحميل البيانات
+    }
 
     // دالة لحفظ الاشتراكات في الملف
     private void saveSubscriptionsToFile() {
-        String filePath = "C:\\Users\\Msys\\eclipse-workspace\\fit\\src\\main\\resources\\Subscriptions.txt";
+        String filePath = "src/main/resources/SubscriptionPlans.txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (Subscription subscription : subscriptions) {
-                writer.write(subscription.getClientId() + "," + subscription.getPlanName());
-                writer.newLine();
+                String username = usernameMap.get(subscription.getClientId()); // استخراج اسم المستخدم باستخدام Client ID
+                if (username != null) {
+                    writer.write(username + "," + subscription.getPlanName()); // تخزين اسم المستخدم بدلاً من Client ID
+                    writer.newLine();
+                } else {
+                    System.err.println("No username found for clientId: " + subscription.getClientId());
+                }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error writing to subscriptions file: " + e.getMessage());
         }
     }
+    public boolean addSubscription(String email, String planName) {
+        String clientId = getClientId(email);
+        if (clientId != null) {
+            Subscription newSubscription = new Subscription(clientId, planName);
+            subscriptions.add(newSubscription);
+            saveSubscriptionsToFile();
+            System.out.println("Subscription added successfully."); // رسالة التأكيد
+            return true;
+        } else {
+            System.out.println("Client not found.");
+            return false;
+        }
+    }
+
 
     // الكلاسات الداخلية الخاصة بخطط الاشتراك والاشتراكات
     public static class SubscriptionPlan {

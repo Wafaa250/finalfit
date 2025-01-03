@@ -8,7 +8,7 @@ import io.cucumber.junit.CucumberOptions.SnippetType;
 @RunWith(Cucumber.class)
 
 @CucumberOptions(
-	    features = "C:\\Users\\Msys\\eclipse-workspace\\fit\\src\\feature", 
+		features = "src/feature",
 	    plugin = { "pretty", "html:target/cucumber/wikipedia.html" }, 
 	    monochrome = true, 
 	    snippets = SnippetType.CAMELCASE, 

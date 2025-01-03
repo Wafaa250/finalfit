@@ -7,7 +7,7 @@ public class ClientInteraction {
 
     // Method to send a message to a client
     public static String sendMessage(String instructor, String client, String message) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\Msys\\eclipse-workspace\\fit\\src\\main\\resources\\messages.txt", true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/messages.txt", true))) {
             writer.write("Client:" + client + ",Message:From " + instructor + ": " + message);
             writer.newLine();
             return "Message sent to " + client;
@@ -19,7 +19,7 @@ public class ClientInteraction {
     // Method to view messages from a client
     public static List<String> viewMessages(String client) {
         List<String> messages = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Msys\\eclipse-workspace\\fit\\src\\main\\resources\\messages.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/messages.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("Client:" + client)) {
@@ -34,7 +34,7 @@ public class ClientInteraction {
 
     // Method to provide feedback to a client
     public static String provideFeedback(String client, String feedback) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\Msys\\eclipse-workspace\\fit\\src\\main\\resources\\feedback.txt", true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/feedback.txt", true))) {
             writer.write("Client:" + client + ",Feedback:" + feedback);
             writer.newLine();
             return "Feedback sent to " + client;
@@ -45,7 +45,7 @@ public class ClientInteraction {
 
     // Method to view client feedback
     public static String viewFeedback(String client) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Msys\\eclipse-workspace\\fit\\src\\main\\resources\\feedback.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/feedback.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("Client:" + client)) {
@@ -60,7 +60,7 @@ public class ClientInteraction {
 
     // Method to update client progress
     public static String updateProgress(String client, String progressDetails) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\Msys\\eclipse-workspace\\fit\\src\\main\\resources\\progress.txt", true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/progress.txt", true))) {
             writer.write("Client:" + client + ",Progress:" + progressDetails);
             writer.newLine();
             return "Progress updated for " + client;
@@ -71,7 +71,7 @@ public class ClientInteraction {
 
     // Method to view client progress
     public static String viewProgress(String client) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Msys\\eclipse-workspace\\fit\\src\\main\\resources\\progress.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/progress.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("Client:" + client)) {
@@ -83,14 +83,4 @@ public class ClientInteraction {
         }
         return "No progress details available";
     }
-
-  /*  public static void main(String[] args) {
-        // Example usage
-        System.out.println(sendMessage("Rasmiya", "Hiba", "Great progress this week! Keep it up!"));
-        System.out.println(viewMessages("Hiba"));
-        System.out.println(provideFeedback("Hiba", "Focus more on consistency."));
-        System.out.println(viewFeedback("Hiba"));
-        System.out.println(updateProgress("Hiba", "Completed 3 out of 4 sessions this week."));
-        System.out.println(viewProgress("Hiba"));
-    }*/
 }

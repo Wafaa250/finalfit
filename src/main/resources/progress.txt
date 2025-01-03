@@ -1,0 +1,2 @@
+Client:Hiba,Progress:Completed 3 out of 5 sessions this week.
+Client:Sara,Progress:Missed last 2 sessions, needs improvement.
