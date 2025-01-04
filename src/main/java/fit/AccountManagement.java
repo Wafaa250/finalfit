@@ -78,10 +78,10 @@ public class AccountManagement {
     private static String[] prepareAccountDetails(String account) {
         String[] details = account.split(",");
         if (details.length < 7) {
-            details = Arrays.copyOf(details, 7); // Extend the array to 7 columns
-            if (details[4] == null || details[4].isEmpty()) details[4] = "None"; // Default age
-            if (details[5] == null || details[5].isEmpty()) details[5] = "None"; // Default fitness goal
-            if (details[6] == null || details[6].isEmpty()) details[6] = "None"; // Default dietary preferences
+        //    details = Arrays.copyOf(details, 7); // Extend the array to 7 columns
+         //   if (details[4] == null || details[4].isEmpty()) details[4] = "None"; // Default age
+        //    if (details[5] == null || details[5].isEmpty()) details[5] = "None"; // Default fitness goal
+        //    if (details[6] == null || details[6].isEmpty()) details[6] = "None"; // Default dietary preferences
         }
         return details;
     }
@@ -105,10 +105,10 @@ public class AccountManagement {
 
                 // Ensure array has enough fields (7 columns)
                 if (accountDetails.length < 7) {
-                    accountDetails = Arrays.copyOf(accountDetails, 7);
-                    if (accountDetails[4] == null || accountDetails[4].isEmpty()) accountDetails[4] = "None"; // Default age
-                    if (accountDetails[5] == null || accountDetails[5].isEmpty()) accountDetails[5] = "None"; // Default fitness goal
-                    if (accountDetails[6] == null || accountDetails[6].isEmpty()) accountDetails[6] = "None"; // Default dietary preferences
+                 //   accountDetails = Arrays.copyOf(accountDetails, 7);
+                  //  if (accountDetails[4] == null || accountDetails[4].isEmpty()) accountDetails[4] = "None"; // Default age
+                  //  if (accountDetails[5] == null || accountDetails[5].isEmpty()) accountDetails[5] = "None"; // Default fitness goal
+                 //   if (accountDetails[6] == null || accountDetails[6].isEmpty()) accountDetails[6] = "None"; // Default dietary preferences
                 }
 
                 if (accountDetails[0].equals(username)) {

@@ -7,20 +7,18 @@ import java.util.logging.Level;
 
 public class SubscriptionManagementSource {
 
-    private Vector<SubscriptionPlan> plans = new Vector<>();
-    private Vector<Subscription> subscriptions = new Vector<>();
+    private List<SubscriptionPlan> plans = new ArrayList<>();
+    List<Subscription> subscriptions = new ArrayList<>();
     private Map<String, String> users = new HashMap<>(); // حفظ الـ Client ID بناءً على البريد الإلكتروني
     private Map<String, String> usernameMap = new HashMap<>();
-    private static final Logger logger = Logger.getLogger(SiginSource.class.getName());
+    private static final Logger logger = Logger.getLogger(SubscriptionManagementSource.class.getName());
 
-    // تحميل بيانات المستخدمين من الملف
     public SubscriptionManagementSource() {
         loadUsers();
     }
 
     // تحميل بيانات المستخدمين من ملف Accounts.txt
- // تحميل بيانات المستخدمين من ملف Accounts.txt
-    private void loadUsers() {
+    public void loadUsers() {
         String filePath = "src/main/resources/Accounts.txt";
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -35,26 +33,31 @@ public class SubscriptionManagementSource {
                 }
             }
         } catch (IOException e) {
-        	logger.log(Level.SEVERE, "Error reading accounts file: " + e.getMessage(), e);
+            logger.log(Level.SEVERE, "Error reading accounts file: " + e.getMessage(), e);
         }
     }
-
 
     // البحث عن الـ Client ID باستخدام البريد الإلكتروني
     public String getClientId(String email) {
         return users.get(email); // إرجاع الـ Client ID بناءً على البريد الإلكتروني
     }
 
-    // إضافة خطة اشتراك جديدة
     public boolean addSubscriptionPlan(String name, int price) {
         for (SubscriptionPlan plan : plans) {
             if (plan.getName().equalsIgnoreCase(name)) {
+                logger.log(Level.WARNING, "Plan already exists: " + name);
                 return false; // Plan already exists
             }
         }
         plans.add(new SubscriptionPlan(name, price));
         savePlansToFile();
+        logger.log(Level.INFO, "Plan added successfully: " + name);
         return true;
+    }
+
+    public void clearPlans() {
+        plans.clear();
+        savePlansToFile();
     }
 
     // تعديل خطة اشتراك موجودة
@@ -88,7 +91,7 @@ public class SubscriptionManagementSource {
         if (clientId != null) {
             subscriptions.add(new Subscription(clientId, "Upgrade Requested"));
         } else {
-        	logger.log(Level.INFO, "Client not found!");
+            logger.log(Level.INFO, "Client not found!");
         }
     }
 
@@ -104,7 +107,7 @@ public class SubscriptionManagementSource {
         }
         return false; // لم يتم العثور على طلب ترقية
     }
-
+/*
     // دالة لإلغاء اشتراك العميل بناءً على معرفه
     public boolean cancelSubscription(String email) {
         String clientId = getClientId(email);  // استخراج Client ID باستخدام البريد الإلكتروني
@@ -116,7 +119,7 @@ public class SubscriptionManagementSource {
             }
         }
         return false; // لم يتم العثور على الاشتراك
-    }
+    }*/
 
     // دالة لحفظ خطط الاشتراك في الملف
     private void savePlansToFile() {
@@ -127,9 +130,10 @@ public class SubscriptionManagementSource {
                 writer.newLine();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error writing subscription plans to file", e);
         }
     }
+
     private String getEmailFromClientId(String clientId) {
         for (Map.Entry<String, String> entry : users.entrySet()) {
             if (entry.getValue().equals(clientId)) {
@@ -140,13 +144,12 @@ public class SubscriptionManagementSource {
     }
 
     private String getUsernameFromEmail(String email) {
-        // لتنفيذ هذه الدالة، يجب أن يكون لديك خريطة تربط البريد الإلكتروني بأسماء المستخدمين
         return usernameMap.get(email);  // يجب تعريف usernameMap وتعبئته بمناسبة تحميل البيانات
     }
 
     // دالة لحفظ الاشتراكات في الملف
     private void saveSubscriptionsToFile() {
-        String filePath = "src/main/resources/SubscriptionPlans.txt";
+        String filePath = "src/main/resources/Subscriptions.txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (Subscription subscription : subscriptions) {
                 String username = usernameMap.get(subscription.getClientId()); // استخراج اسم المستخدم باستخدام Client ID
@@ -154,13 +157,14 @@ public class SubscriptionManagementSource {
                     writer.write(username + "," + subscription.getPlanName()); // تخزين اسم المستخدم بدلاً من Client ID
                     writer.newLine();
                 } else {
-                	logger.log(Level.WARNING, "No username found for clientId: {0}", subscription.getClientId());
+                    logger.log(Level.WARNING, "No username found for clientId: {0}", subscription.getClientId());
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error writing to subscriptions file: " + e.getMessage());
+            logger.log(Level.SEVERE, "Error writing subscriptions to file", e);
         }
     }
+
     public boolean addSubscription(String email, String planName) {
         String clientId = getClientId(email);
         if (clientId != null) {
@@ -171,12 +175,11 @@ public class SubscriptionManagementSource {
 
             return true;
         } else {
-        	logger.log(Level.INFO, "Client not found");
+            logger.log(Level.INFO, "Client not found");
             return false;
         }
     }
-
-
+    
     // الكلاسات الداخلية الخاصة بخطط الاشتراك والاشتراكات
     public static class SubscriptionPlan {
         private String name;
@@ -225,4 +228,13 @@ public class SubscriptionManagementSource {
             this.planName = planName;
         }
     }
+
+	public List<Subscription> getSubscriptions() {
+		// TODO Auto-generated method stub
+        return subscriptions;
+	}
+	public List<SubscriptionPlan> getPlans() {
+	    return plans;
+	}
+
 }

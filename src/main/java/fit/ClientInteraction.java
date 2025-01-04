@@ -60,16 +60,6 @@ public class ClientInteraction {
         return "No feedback available";
     }
 
-    // Method to update client progress
-    public static String updateProgress(String client, String progressDetails) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/progress.txt", true))) {
-            writer.write("Client:" + client + ",Progress:" + progressDetails);
-            writer.newLine();
-            return "Progress updated for " + client;
-        } catch (IOException e) {
-            return "Error writing progress: " + e.getMessage();
-        }
-    }
 
     // Method to view client progress
     public static String viewProgress(String client) {

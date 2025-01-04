@@ -7,6 +7,8 @@ import io.cucumber.java.en.Then;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.Test;
+
 public class UserManagementSteps {
 
     private UserManagementSource userManagement;
@@ -58,4 +60,7 @@ public class UserManagementSteps {
     public void shouldBeApprovedAsAnInstructor(String email) {
         assertEquals("Instructor Rasmiya has been approved.", resultMessage);
     }
+    
+    
+   
 }
