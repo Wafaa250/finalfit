@@ -5,4 +5,3 @@ client,Nablus,client@gmail.com,client123,Client
 qasem,Nablus,qasim12@gmail.com,wafaa22,Client
 Hiba,Nablus,HibaLO@gmail.com,123456h,Client
 Sara,Nablus,sara@gmail.com,H1515,Client
-
