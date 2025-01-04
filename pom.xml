@@ -57,20 +57,21 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-<build>
-    <plugins>
-        <!-- إعدادات Maven Compiler Plugin -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.1</version> <!-- استخدم إصدار حديث -->
-            <configuration>
-                <source>17</source> <!-- حدّد الإصدار المناسب -->
-                <target>17</target> <!-- حدّد الإصدار المناسب -->
-            </configuration>
-        </plugin>
-    </plugins>
 
+    <build>
+        <plugins>
+            <!-- Plugin لتشغيل اختبارات Cucumber -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M7</version>
+                <configuration>
+                    <includes>
+                        <include>/*Test.java</include>
+                    </includes>
+                    <forkCount>2</forkCount>  <!-- إضافة لتشغيل الاختبارات في عمليات منفصلة -->
+                </configuration>
+            </plugin>
      
         <plugin>
             <groupId>org.jacoco</groupId>
