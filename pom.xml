@@ -72,7 +72,21 @@
                     <forkCount>2</forkCount>  <!-- إضافة لتشغيل الاختبارات في عمليات منفصلة -->
                 </configuration>
             </plugin>
-     
+     <build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.1</version> <!-- استخدم إصدار حديث -->
+            <configuration>
+                <source>17</source> <!-- Java Source Version -->
+                <target>17</target> <!-- Java Target Version -->
+                <encoding>UTF-8</encoding> <!-- لحل مشكلة التشفير -->
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+
         <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
