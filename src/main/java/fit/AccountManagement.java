@@ -172,6 +172,8 @@ public class AccountManagement {
             return "Error deleting user account: " + e.getMessage();
         }
     }
+  
+
 
 
    
@@ -190,11 +192,11 @@ public class AccountManagement {
 
             if (updatedInClientAccounts && updatedInMasterAccounts) {
                 return "Password updated successfully";
-            } else if (!updatedInClientAccounts && !updatedInMasterAccounts) {
+            } /*else if (!updatedInClientAccounts && !updatedInMasterAccounts) {
                 return "User not found or current password incorrect in both files.";
             } else if (!updatedInClientAccounts) {
                 return "Partial update: Failed to update in Clientaccounts.txt.";
-            } else {
+            }*/ else {
                 return "Partial update: Failed to update in Accounts.txt.";
             }
         } catch (IOException e) {
@@ -256,27 +258,6 @@ public class AccountManagement {
     }
 
 
-    public static List<Map<String, String>> viewAllUsers() {
-        List<Map<String, String>> usersList = new ArrayList<>();
-        try {
-            List<String> accounts = readAccountsFromFile();
-            for (String account : accounts) {
-                String[] details = account.split(",");
-                Map<String, String> userMap = new HashMap<>();
-                userMap.put("Name", details[0]);
-                userMap.put("Email", details[2]);
-                userMap.put("Role", details[4]);
-                usersList.add(userMap);
-            }
-        } catch (IOException e) {
-            Map<String, String> errorMap = new HashMap<>();
-            errorMap.put("Error", "Error reading user accounts: " + e.getMessage());
-            usersList.add(errorMap);
-        }
-        return usersList;
-    }
-
-
     // Helper method to read accounts from file
     private static List<String> readAccountsFromFile() throws IOException {
         List<String> accounts = new ArrayList<>();
@@ -305,9 +286,9 @@ public class AccountManagement {
                 return account; // Return account details
             }
         }
-        // إذا لم يتم العثور على الحساب
-        if (username.equals("Wafaa")) { // تحقق من اسم المستخدم إذا كان Admin
-            return "Wafaa,Admin,Wafaa_admin@gmail.com,Admin@2024,None,None,None"; // بيانات افتراضية للـ Admin
+       
+        if (username.equals("Wafaa")) { 
+            return "Wafaa,Admin,Wafaa_admin@gmail.com,Admin@2024,None,None,None"; 
         }
         return null; // Return null if user not found
     }
@@ -316,81 +297,8 @@ public class AccountManagement {
     
  
 
-    // Method to update dietary preferences
-    public static String updateDietaryPreferences(String username, Map<String, String> preferences) {
-        // Implement logic for updating dietary preferences
-        return "Dietary preferences updated successfully";
-    }
 
-    // Method to change email
-    public static String changeEmail(String username, String newEmail) {
-        for (int i = 0; i < accountsData.size(); i++) {
-            String account = accountsData.get(i);
-            if (account.startsWith(username + ",")) {
-                String[] details = account.split(",");
-                details[2] = newEmail; // Update email
-                accountsData.set(i, String.join(",", details));
-                try {
-                    writeAccountsToFile(accountsData);
-                } catch (IOException e) {
-                    return "Error updating email: " + e.getMessage();
-                }
-                return "Email updated successfully";
-            }
-        }
-        return USER_NOT_FOUND_MESSAGE;
-    }
-
-    // Method to change password
-    public static String changePassword(String username, String newPassword) {
-        for (int i = 0; i < accountsData.size(); i++) {
-            String account = accountsData.get(i);
-            if (account.startsWith(username + ",")) {
-                String[] details = account.split(",");
-                details[3] = newPassword; // Update password
-                accountsData.set(i, String.join(",", details));
-                try {
-                    writeAccountsToFile(accountsData);
-                } catch (IOException e) {
-                    return "Error updating password: " + e.getMessage();
-                }
-                return "Password updated successfully";
-            }
-        }
-        return USER_NOT_FOUND_MESSAGE;
-    }
-
-    // Method to delete account
-    public static String deleteAccount(String username) {
-        for (int i = 0; i < accountsData.size(); i++) {
-            String account = accountsData.get(i);
-            if (account.startsWith(username + ",")) {
-                accountsData.remove(i); // Remove the account
-                try {
-                    writeAccountsToFile(accountsData);
-                } catch (IOException e) {
-                    return "Error deleting account: " + e.getMessage();
-                }
-                return "Account deleted successfully";
-            }
-        }
-        return USER_NOT_FOUND_MESSAGE;
-    }
-
-    // Method to get account details
-    public static Map<String, String> getAccountDetails(String username) {
-        for (String account : accountsData) {
-            if (account.startsWith(username + ",")) {
-                String[] details = account.split(",");
-                Map<String, String> accountDetails = new HashMap<>();
-                accountDetails.put("username", details[0]);
-                accountDetails.put("email", details[2]);
-                accountDetails.put("role", details[4]);
-                return accountDetails;
-            }
-        }
-        return null; // Return null if user not found
-    }
+   
 
 
 }

@@ -1,4 +1,4 @@
-package fit;
+/*package fit;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -675,3 +675,4 @@ public class main {
         NotificationsAndUpdates.sendNotification(username, "New message from Hiba: I have a question about my schedule.");
     }
 }
+*/
