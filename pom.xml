@@ -84,7 +84,6 @@
                 <encoding>UTF-8</encoding> <!-- لحل مشكلة التشفير -->
             </configuration>
         </plugin>
-    </plugins>
 
 
         <plugin>
