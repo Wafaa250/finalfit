@@ -1,11 +1,14 @@
-
 package fit;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SiginSource {
+    private static final Logger LOGGER = Logger.getLogger(SiginSource.class.getName()); // إنشاء Logger
+
     private boolean found = false;
     private boolean passFound = false;
     private String workRole;
@@ -20,36 +23,28 @@ public class SiginSource {
     }
 
     public void checkLoginValidInFile(String userName, String pass) {
-        // تحديد المسار الكامل للملف
         String filePath = "src/main/resources/Accounts.txt";
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
 
-            // قراءة كل سطر في الملف
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
 
-                // التحقق إذا كانت البيانات تحتوي على الأقل على 4 عناصر (اسم المستخدم، المدينة، البريد الإلكتروني، كلمة المرور)
-                if (parts.length >= 4) {
-                    // التحقق من اسم المستخدم
-                    if (parts[0].equals(userName)) {
-                        found = true;
+                if (parts.length >= 4 && parts[0].equals(userName)) {
+                    found = true;
 
-                        // التحقق من كلمة المرور
-                        if (parts[3].equals(pass)) {
-                            passFound = true;
-                            setCheckValid(1);  // تعيين القيمة لتحديد أن تسجيل الدخول ناجح
-                        }
-
-                        // تحديد الدور (الوظيفة)
-                        workRole = parts[4];
-                        break;
+                    if (parts[3].equals(pass)) {
+                        passFound = true;
+                        setCheckValid(1);
                     }
+
+                    workRole = parts[4];
+                    break;
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error reading the accounts file", e); // استبدال printStackTrace بـ Logger
         }
     }
 

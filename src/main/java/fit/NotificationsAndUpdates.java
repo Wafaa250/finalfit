@@ -2,9 +2,12 @@ package fit;
 
 import java.io.*;
 import java.util.*;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public class NotificationsAndUpdates {
+	private static final Logger LOGGER = Logger.getLogger(NotificationsAndUpdates.class.getName());
 
+	
 	private static final String NOTIFICATIONS_FILE = "src/main/resources/notifications.txt";
 
 	// طريقة إرسال الإشعار مع التحقق من التكرار
@@ -29,7 +32,7 @@ public class NotificationsAndUpdates {
 	        }
 	        return "Notification sent: " + notification;
 	    } catch (IOException e) {
-	        System.out.println("Error writing to notifications file: " + e.getMessage());
+	    	LOGGER.log(Level.SEVERE, "Error writing to notifications file: {0}", e.getMessage());
 	        return "Error sending notification.";
 	    }
 	}
@@ -46,7 +49,7 @@ public class NotificationsAndUpdates {
 	            }
 	        }
 	    } catch (IOException e) {
-	        System.out.println("Error reading notifications file: " + e.getMessage());
+	    	 LOGGER.log(Level.SEVERE, "Error reading notifications file: {0}", e.getMessage());
 	    }
 	    return new ArrayList<>(notifications); // تحويل Set إلى List
 	}

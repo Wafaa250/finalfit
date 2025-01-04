@@ -2,6 +2,8 @@ package fit;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class SubscriptionManagementSource {
 
@@ -9,6 +11,7 @@ public class SubscriptionManagementSource {
     private Vector<Subscription> subscriptions = new Vector<>();
     private Map<String, String> users = new HashMap<>(); // حفظ الـ Client ID بناءً على البريد الإلكتروني
     private Map<String, String> usernameMap = new HashMap<>();
+    private static final Logger logger = Logger.getLogger(SiginSource.class.getName());
 
     // تحميل بيانات المستخدمين من الملف
     public SubscriptionManagementSource() {
@@ -32,7 +35,7 @@ public class SubscriptionManagementSource {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error reading accounts file: " + e.getMessage());
+        	logger.log(Level.SEVERE, "Error reading accounts file: " + e.getMessage(), e);
         }
     }
 
@@ -85,7 +88,7 @@ public class SubscriptionManagementSource {
         if (clientId != null) {
             subscriptions.add(new Subscription(clientId, "Upgrade Requested"));
         } else {
-            System.out.println("Client not found!");
+        	logger.log(Level.INFO, "Client not found!");
         }
     }
 
@@ -151,7 +154,7 @@ public class SubscriptionManagementSource {
                     writer.write(username + "," + subscription.getPlanName()); // تخزين اسم المستخدم بدلاً من Client ID
                     writer.newLine();
                 } else {
-                    System.err.println("No username found for clientId: " + subscription.getClientId());
+                	logger.log(Level.WARNING, "No username found for clientId: {0}", subscription.getClientId());
                 }
             }
         } catch (IOException e) {
@@ -164,10 +167,11 @@ public class SubscriptionManagementSource {
             Subscription newSubscription = new Subscription(clientId, planName);
             subscriptions.add(newSubscription);
             saveSubscriptionsToFile();
-            System.out.println("Subscription added successfully."); // رسالة التأكيد
+            logger.log(Level.INFO, "Subscription added successfully");
+
             return true;
         } else {
-            System.out.println("Client not found.");
+        	logger.log(Level.INFO, "Client not found");
             return false;
         }
     }

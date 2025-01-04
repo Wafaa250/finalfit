@@ -2,9 +2,11 @@ package fit;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ClientInteraction {
-
+	 private static final Logger LOGGER = Logger.getLogger(ClientInteraction.class.getName());
     // Method to send a message to a client
     public static String sendMessage(String instructor, String client, String message) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/messages.txt", true))) {
@@ -27,7 +29,7 @@ public class ClientInteraction {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error reading messages file: " + e.getMessage());
+        	LOGGER.log(Level.SEVERE, "Error reading messages file: {0}", e.getMessage());
         }
         return messages;
     }

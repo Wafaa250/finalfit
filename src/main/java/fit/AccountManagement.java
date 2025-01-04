@@ -2,70 +2,99 @@ package fit;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AccountManagement {
+	private static final Logger LOGGER = Logger.getLogger(AccountManagement.class.getName());
+
+	
+	  private AccountManagement() {
+	        throw new UnsupportedOperationException("Utility class");
+	    }
+
 
     private static final String ACCOUNTS_FILE = "src/main/resources/Clientaccounts.txt";
     private static final String MASTER_ACCOUNTS_FILE = "src/main/resources/Accounts.txt";
     private static List<String> accountsData = new ArrayList<>();
+    private static final String USER_NOT_FOUND_MESSAGE = "User not found";
    
     
     static {
         try {
             accountsData = readAccountsFromFile();
         } catch (IOException e) {
-            System.out.println("Error loading accounts: " + e.getMessage());
+        	LOGGER.log(Level.SEVERE, "Error loading accounts: {0}", e.getMessage());
         }
     }
 
- // Method to update personal details
     public static String updatePersonalDetails(String username, String age, String fitnessGoals) {
         // Validate inputs
+        String validationError = validateInputs(username, age, fitnessGoals);
+        if (validationError != null) {
+            return validationError;
+        }
+
+        // Process account update
+        String updateResult = processAccountUpdate(username, age, fitnessGoals);
+        if (updateResult != null) {
+            return updateResult;
+        }
+
+        return USER_NOT_FOUND_MESSAGE;
+    }
+
+    private static String validateInputs(String username, String age, String fitnessGoals) {
         if (username == null || username.isEmpty()) {
             return "Username cannot be null or empty";
         }
-        if (age == null || age.isEmpty() || !age.matches("\\d+")) { // Ensure age is numeric
+        if (age == null || age.isEmpty() || !age.matches("\\d+")) {
             return "Invalid age: must be a non-empty numeric value";
         }
         if (fitnessGoals == null || fitnessGoals.isEmpty()) {
             return "Fitness goals cannot be null or empty";
         }
+        return null;
+    }
 
-        // Loop through accounts to find the user
+    private static String processAccountUpdate(String username, String age, String fitnessGoals) {
         for (int i = 0; i < accountsData.size(); i++) {
             String account = accountsData.get(i);
-          //  System.out.println("Checking account: " + account); // Debugging log
 
             if (account.startsWith(username + ",")) { // Match username
-                String[] details = account.split(",");
-
-                // Ensure details array has sufficient fields
-                if (details.length < 7) {
-                    details = Arrays.copyOf(details, 7); // Extend the array to 7 columns
-                    if (details[4] == null || details[4].isEmpty()) details[4] = "None"; // Default age
-                    if (details[5] == null || details[5].isEmpty()) details[5] = "None"; // Default fitness goal
-                    if (details[6] == null || details[6].isEmpty()) details[6] = "None"; // Default dietary preferences
-                }
+                String[] details = prepareAccountDetails(account);
 
                 // Update age and fitness goals
-                details[4] = age; // Update age
-                details[5] = fitnessGoals; // Update fitness goals
+                details[4] = age;
+                details[5] = fitnessGoals;
                 accountsData.set(i, String.join(",", details));
 
-                // Write updated data back to file
-                try {
-                    writeAccountsToFile(accountsData);
-                } catch (IOException e) {
-                    return "Error updating personal details: " + e.getMessage();
-                }
-
-                return "Personal details updated successfully";
+                return writeUpdatedData();
             }
         }
-
-        // If user not found
-        return "User not found";
+        return null;
     }
+
+    private static String[] prepareAccountDetails(String account) {
+        String[] details = account.split(",");
+        if (details.length < 7) {
+            details = Arrays.copyOf(details, 7); // Extend the array to 7 columns
+            if (details[4] == null || details[4].isEmpty()) details[4] = "None"; // Default age
+            if (details[5] == null || details[5].isEmpty()) details[5] = "None"; // Default fitness goal
+            if (details[6] == null || details[6].isEmpty()) details[6] = "None"; // Default dietary preferences
+        }
+        return details;
+    }
+
+    private static String writeUpdatedData() {
+        try {
+            writeAccountsToFile(accountsData);
+            return "Personal details updated successfully";
+        } catch (IOException e) {
+            return "Error updating personal details: " + e.getMessage();
+        }
+    }
+
 
  // Method to update dietary preferences
     public static String updateDietaryPreferences(String username, String dietaryPreference) {
@@ -89,7 +118,7 @@ public class AccountManagement {
                     return "Dietary preferences updated successfully";
                 }
             }
-            return "User not found";
+            return USER_NOT_FOUND_MESSAGE;
         } catch (IOException e) {
             return "Error updating dietary preferences: " + e.getMessage();
         }
@@ -110,7 +139,7 @@ public class AccountManagement {
                     return "User details updated successfully";
                 }
             }
-            return "User not found";
+            return USER_NOT_FOUND_MESSAGE;
         } catch (IOException e) {
             return "Error updating user details: " + e.getMessage();
         }
@@ -137,7 +166,7 @@ public class AccountManagement {
                 writeAccountsToFile(accounts); // كتابة التحديثات إلى الملف
                 return "User account deleted successfully";
             } else {
-                return "User not found";
+            	return USER_NOT_FOUND_MESSAGE;
             }
         } catch (IOException e) {
             return "Error deleting user account: " + e.getMessage();
@@ -145,47 +174,7 @@ public class AccountManagement {
     }
 
 
-    // Method to update the user's password
-  /*  public static String updatePassword(String username, String currentPassword, String newPassword) {
-        try {
-            // قراءة الحسابات من الملف
-            List<String> accounts = new ArrayList<>(readAccountsFromFile());
-            
-            // التحقق من وجود الحساب
-            boolean userFound = false;
-            for (int i = 0; i < accounts.size(); i++) {
-                String[] accountDetails = accounts.get(i).split(",");
-
-                // التحقق من اسم المستخدم
-                if (accountDetails[0].equals(username)) {
-                    userFound = true;
-
-                    // التحقق من كلمة المرور الحالية
-                    if (!accountDetails[3].equals(currentPassword)) {
-                        return "Current password is incorrect"; // إذا كانت كلمة المرور غير صحيحة
-                    }
-
-                    // تحديث كلمة المرور
-                    accountDetails[3] = newPassword;
-                    accounts.set(i, String.join(",", accountDetails));
-
-                    // حفظ التغييرات في الملف
-                    writeAccountsToFile(accounts);
-                    return "Password updated successfully";
-                }
-            }
-
-            // إذا لم يتم العثور على المستخدم
-            if (!userFound) {
-                return "User not found";
-            }
-        } catch (IOException e) {
-            return "Error updating password: " + e.getMessage();
-        }
-
-        // حالة افتراضية (لا يجب أن تصل إلى هنا)
-        return "Unexpected error occurred while updating password";
-    }*/
+   
 
  // تعديل طريقة updatePassword لتحديث كلمة المرور في كلا الملفين
     public static String updatePassword(String username, String currentPassword, String newPassword) {
@@ -213,33 +202,6 @@ public class AccountManagement {
         }
     }
 
-
-
-    /*private static boolean updatePasswordInFile(String filePath, String username, String currentPassword, String newPassword) throws IOException {
-        boolean userFound = false;
-        List<String> accounts = new ArrayList<>(readAccountsFromFile(filePath));
-
-        for (int i = 0; i < accounts.size(); i++) {
-            String[] accountDetails = accounts.get(i).split(",");
-
-            if (accountDetails[0].equals(username)) {
-                if (!accountDetails[3].equals(currentPassword)) {
-                    return false; // إذا كانت كلمة المرور الحالية غير صحيحة
-                }
-
-                accountDetails[3] = newPassword; // تحديث كلمة المرور
-                accounts.set(i, String.join(",", accountDetails));
-                userFound = true;
-                break;
-            }
-        }
-
-        if (userFound) {
-            writeAccountsToFile(filePath, accounts);
-        }
-
-        return userFound;
-    }*/
     private static boolean updatePasswordInFile(String filePath, String username, String currentPassword, String newPassword) throws IOException {
         boolean userFound = false;
         List<String> accounts = new ArrayList<>(readAccountsFromFile(filePath));
@@ -250,7 +212,7 @@ public class AccountManagement {
             if (accountDetails[0].equals(username)) {
               //  System.out.println("Found user: " + username + " in file: " + filePath); // Debugging log
                 if (!accountDetails[3].equals(currentPassword)) {
-                    System.out.println("Current password mismatch for user: " + username + " in file: " + filePath); // Debugging log
+                	 LOGGER.log(Level.WARNING, "Current password mismatch for user: {0} in file: {1}", new Object[]{username, filePath}); // Debugging log
                     return false; // إذا كانت كلمة المرور الحالية غير صحيحة
                 }
 
@@ -265,7 +227,7 @@ public class AccountManagement {
             writeAccountsToFile(filePath, accounts);
            // System.out.println("Password updated successfully for user: " + username + " in file: " + filePath); // Debugging log
         } else {
-            System.out.println("User not found in file: " + filePath); // Debugging log
+            LOGGER.log(Level.INFO, "User not found in file: {0}", filePath); // Debugging log
         }
 
         return userFound;
@@ -376,7 +338,7 @@ public class AccountManagement {
                 return "Email updated successfully";
             }
         }
-        return "User not found";
+        return USER_NOT_FOUND_MESSAGE;
     }
 
     // Method to change password
@@ -395,7 +357,7 @@ public class AccountManagement {
                 return "Password updated successfully";
             }
         }
-        return "User not found";
+        return USER_NOT_FOUND_MESSAGE;
     }
 
     // Method to delete account
@@ -412,7 +374,7 @@ public class AccountManagement {
                 return "Account deleted successfully";
             }
         }
-        return "User not found";
+        return USER_NOT_FOUND_MESSAGE;
     }
 
     // Method to get account details
