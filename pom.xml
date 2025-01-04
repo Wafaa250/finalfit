@@ -1,75 +1,98 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
-    <groupId>healthy.sys</groupId>
-    <artifactId>fit</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-
-    <properties>
-        <sonar.organization>raswafafit</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-    </properties>
-
-    <dependencies>
-        <!-- Cucumber Java dependency -->
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>7.20.1</version>
-        </dependency>
-
-        <!-- JUnit dependency -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.9.3</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <!-- Plugin لتشغيل اختبارات Cucumber -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M7</version>
-                <configuration>
-                    <includes>
-                        <include>/*Test.java</include>
-                    </includes>
-                    <forkCount>2</forkCount>
-                </configuration>
-            </plugin>
-
-            <!-- Plugin لتحديد نسخة JDK -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>17</source>
-                    <target>17</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-
-            <!-- Plugin لتقارير التغطية -->
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.7</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>healthy.sys</groupId>
+   <artifactId>fit</artifactId>
+   <version>0.0.1-SNAPSHOT</version>
+   <properties>
+      <sonar.organization>raswafafit</sonar.organization>
+      <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+   </properties>
+   <dependencies>
+      <!-- Cucumber Java dependency -->
+      <dependency>
+         <groupId>io.cucumber</groupId>
+         <artifactId>cucumber-java</artifactId>
+         <version>7.20.1</version>
+      </dependency>
+      <!-- Cucumber JUnit dependency -->
+      <dependency>
+         <groupId>io.cucumber</groupId>
+         <artifactId>cucumber-junit</artifactId>
+         <version>7.20.1</version>
+         <scope>test</scope>
+      </dependency>
+      <!-- Cucumber Core dependency -->
+      <dependency>
+         <groupId>io.cucumber</groupId>
+         <artifactId>cucumber-core</artifactId>
+         <version>7.20.1</version>
+      </dependency>
+      <!-- Cucumber PicoContainer dependency -->
+      <dependency>
+         <groupId>io.cucumber</groupId>
+         <artifactId>cucumber-picocontainer</artifactId>
+         <version>7.20.1</version>
+         <scope>test</scope>
+      </dependency>
+      <!-- JUnit 5 (Jupiter) API dependency -->
+      <dependency>
+         <groupId>org.junit.jupiter</groupId>
+         <artifactId>junit-jupiter-api</artifactId>
+         <version>5.9.3</version>
+         <scope>test</scope>
+      </dependency>
+      <!-- JUnit Vintage (لضمان التوافق مع JUnit 4) -->
+      <dependency>
+         <groupId>org.junit.vintage</groupId>
+         <artifactId>junit-vintage-engine</artifactId>
+         <version>5.9.3</version>
+         <scope>test</scope>
+      </dependency>
+   </dependencies>
+   <build>
+      <plugins>
+         <!-- Plugin لتشغيل اختبارات Cucumber -->
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.0.0-M7</version>
+            <configuration>
+               <includes>
+                  <include>/*Test.java</include>
+               </includes>
+               <forkCount>2</forkCount>
+               <!-- إضافة لتشغيل الاختبارات في عمليات منفصلة -->
+            </configuration>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.1</version>
+            <!-- استخدم إصدار حديث -->
+            <configuration>
+               <source>17</source>
+               <!-- Java Source Version -->
+               <target>17</target>
+               <!-- Java Target Version -->
+               <encoding>UTF-8</encoding>
+               <!-- لحل مشكلة التشفير -->
+            </configuration>
+         </plugin>
+         <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.7</version>
+            <!-- تأكد من استخدام أحدث نسخة -->
+            <executions>
+               <execution>
+                  <goals>
+                     <goal>prepare-agent</goal>
+                     <goal>report</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+   </build>
 </project>
