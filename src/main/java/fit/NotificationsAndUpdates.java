@@ -8,7 +8,7 @@ public class NotificationsAndUpdates {
 	private static final Logger LOGGER = Logger.getLogger(NotificationsAndUpdates.class.getName());
 
 	
-	 static String NOTIFICATIONS_FILE = "src/main/resources/notifications.txt";
+	static String notificationsFile = "src/main/resources/notifications.txt";
 
 	
 
@@ -16,7 +16,7 @@ public class NotificationsAndUpdates {
 	public static String sendNotification(String recipient, String message) {
 	    try {
 	        List<String> existingNotifications = new ArrayList<>();
-	        try (BufferedReader reader = new BufferedReader(new FileReader(NOTIFICATIONS_FILE))) {
+	        try (BufferedReader reader = new BufferedReader(new FileReader(notificationsFile))) {
 	            String line;
 	            while ((line = reader.readLine()) != null) {
 	                existingNotifications.add(line.trim());
@@ -28,10 +28,7 @@ public class NotificationsAndUpdates {
 	            return "Notification already exists.";
 	        }
 
-	      //  try (BufferedWriter writer = new BufferedWriter(new FileWriter(NOTIFICATIONS_FILE, true))) {
-	          //  writer.write(notification);
-	          //  writer.newLine();
-	       // }
+	      
 	        return "Notification sent: " + notification;
 	    } catch (IOException e) {
 	    	LOGGER.log(Level.SEVERE, "Error writing to notifications file: {0}", e.getMessage());
@@ -42,7 +39,7 @@ public class NotificationsAndUpdates {
 	// طريقة عرض الإشعارات بدون تكرار
 	public static List<String> viewNotifications(String recipient) {
 	    Set<String> notifications = new LinkedHashSet<>();
-	    try (BufferedReader reader = new BufferedReader(new FileReader(NOTIFICATIONS_FILE))) {
+	    try (BufferedReader reader = new BufferedReader(new FileReader(notificationsFile))) {
 	        String line;
 	        while ((line = reader.readLine()) != null) {
 	            if (line.startsWith("Recipient:" + recipient)) {

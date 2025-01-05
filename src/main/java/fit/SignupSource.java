@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 public class SignupSource {
 
     private final List<User> users = new ArrayList<>();
-    private static final Logger LOGGER = Logger.getLogger(SiginSource.class.getName()); // إنشاء Logger
+    private static final Logger LOGGER = Logger.getLogger(SignupSource.class.getName());
 
     public String validateSignUp(String username, String email, String role, String password, String confirmPassword) {
         if (!validateUsername(username)) {
