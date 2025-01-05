@@ -33,7 +33,7 @@ public class SubscriptionManagementSource {
                 }
             }
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Error reading accounts file: " + e.getMessage(), e);
+        	logger.log(Level.SEVERE, "Error reading accounts file: " + e.getMessage(), e);
         }
     }
 
@@ -45,7 +45,7 @@ public class SubscriptionManagementSource {
     public boolean addSubscriptionPlan(String name, int price) {
         for (SubscriptionPlan plan : plans) {
             if (plan.getName().equalsIgnoreCase(name)) {
-                logger.log(Level.WARNING, "Plan already exists: " + name);
+            	logger.log(Level.INFO, () -> "Plan already exists: " + name);
                 return false; // Plan already exists
             }
         }
@@ -82,7 +82,7 @@ public class SubscriptionManagementSource {
                 return true;
             }
         }
-        return false; // Plan not found
+        return false; 
     }
 
     // طلب ترقية اشتراك للعميل
@@ -107,19 +107,7 @@ public class SubscriptionManagementSource {
         }
         return false; // لم يتم العثور على طلب ترقية
     }
-/*
-    // دالة لإلغاء اشتراك العميل بناءً على معرفه
-    public boolean cancelSubscription(String email) {
-        String clientId = getClientId(email);  // استخراج Client ID باستخدام البريد الإلكتروني
-        for (Subscription subscription : subscriptions) {
-            if (subscription.getClientId().equals(clientId)) {
-                subscriptions.remove(subscription);  // إزالة الاشتراك للعميل المحدد
-                saveSubscriptionsToFile();  // حفظ التغييرات في الملف
-                return true;
-            }
-        }
-        return false; // لم يتم العثور على الاشتراك
-    }*/
+
 
     // دالة لحفظ خطط الاشتراك في الملف
     private void savePlansToFile() {
@@ -134,18 +122,8 @@ public class SubscriptionManagementSource {
         }
     }
 
-    private String getEmailFromClientId(String clientId) {
-        for (Map.Entry<String, String> entry : users.entrySet()) {
-            if (entry.getValue().equals(clientId)) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
+  
 
-    private String getUsernameFromEmail(String email) {
-        return usernameMap.get(email);  // يجب تعريف usernameMap وتعبئته بمناسبة تحميل البيانات
-    }
 
     // دالة لحفظ الاشتراكات في الملف
     private void saveSubscriptionsToFile() {
@@ -230,7 +208,6 @@ public class SubscriptionManagementSource {
     }
 
 	public List<Subscription> getSubscriptions() {
-		// TODO Auto-generated method stub
         return subscriptions;
 	}
 	public List<SubscriptionPlan> getPlans() {

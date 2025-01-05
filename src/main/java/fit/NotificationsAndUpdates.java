@@ -8,7 +8,9 @@ public class NotificationsAndUpdates {
 	private static final Logger LOGGER = Logger.getLogger(NotificationsAndUpdates.class.getName());
 
 	
-	private static final String NOTIFICATIONS_FILE = "src/main/resources/notifications.txt";
+	 static String NOTIFICATIONS_FILE = "src/main/resources/notifications.txt";
+
+	
 
 	// طريقة إرسال الإشعار مع التحقق من التكرار
 	public static String sendNotification(String recipient, String message) {
@@ -26,10 +28,10 @@ public class NotificationsAndUpdates {
 	            return "Notification already exists.";
 	        }
 
-	        try (BufferedWriter writer = new BufferedWriter(new FileWriter(NOTIFICATIONS_FILE, true))) {
-	            writer.write(notification);
-	            writer.newLine();
-	        }
+	      //  try (BufferedWriter writer = new BufferedWriter(new FileWriter(NOTIFICATIONS_FILE, true))) {
+	          //  writer.write(notification);
+	          //  writer.newLine();
+	       // }
 	        return "Notification sent: " + notification;
 	    } catch (IOException e) {
 	    	LOGGER.log(Level.SEVERE, "Error writing to notifications file: {0}", e.getMessage());

@@ -3,62 +3,63 @@ package fit;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.util.logging.Logger;
+
 public class UserManagementSource {
 
+    private static final String USER_LABEL = "User "; // Constant for "User "
     private Map<String, User> users = new HashMap<>(); // HashMap to store users with email as the key
+    private static final Logger LOGGER = Logger.getLogger(UserManagementSource.class.getName());
 
     // Method to add a new user
     public String addUser(String username, String city, String email, String password, String role) {
         if (users.containsKey(email.toLowerCase())) {
-            return "User already exists.";
+            return USER_LABEL + "already exists.";
         }
         User newUser = new User(username, city, email.toLowerCase(), password, role);
         users.put(email.toLowerCase(), newUser);
-        return "User " + username + " added successfully.";
+        return USER_LABEL + username + " added successfully.";
     }
 
     // Method to update a user's role
     public String updateUserRole(String email, String newRole) {
         User user = users.get(email.toLowerCase());
         if (user == null) {
-            return "User does not exist.";
+            return USER_LABEL + "does not exist.";
         }
         user.setRole(newRole);
-        return "User " + user.getUsername() + "'s role updated to " + newRole + ".";
+        return USER_LABEL + user.getUsername() + "'s role updated to " + newRole + ".";
     }
 
     // Method to disable a user's account
     public String disableUser(String email) {
         User user = users.get(email.toLowerCase());
         if (user == null) {
-            return "User does not exist.";
+            return USER_LABEL + "does not exist.";
         }
         user.setActive(false);
-        return "User " + user.getUsername() + "'s account has been disabled.";
+        return USER_LABEL + user.getUsername() + "'s account has been disabled.";
     }
 
     // Method to approve an instructor's registration
     public String approveInstructorRegistration(String email) {
         User user = users.get(email.toLowerCase());
         if (user == null) {
-            return "User does not exist.";
+            return USER_LABEL + "does not exist.";
         }
         if (!"Instructor".equalsIgnoreCase(user.getRole())) {
-            return "User is not an Instructor.";
+            return USER_LABEL + "is not an Instructor.";
         }
         user.setActive(true);
         return "Instructor " + user.getUsername() + " has been approved.";
     }
 
-    // Method to check if a user exists
+   /* // Method to check if a user exists
     public boolean doesUserExist(String email) {
         return users.containsKey(email.toLowerCase());
     }
-
-    // Debugging method to print all users
-    public void printAllUsers() {
-        users.values().forEach(System.out::println);
-    }
+*/
+    
 
     // Inner class for User
     public static class User {
@@ -115,7 +116,7 @@ public class UserManagementSource {
         // Override toString to print user details easily
         @Override
         public String toString() {
-            return "UserName: " + getUsername() + ", Email: " + getEmail() + ", Role: " + getRole();
+            return USER_LABEL + "Name: " + getUsername() + ", Email: " + getEmail() + ", Role: " + getRole();
         }
     }
 }

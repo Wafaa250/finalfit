@@ -47,13 +47,13 @@ public class ProgramMonitoring {
         return clientProgress;
     }
 
-    // Track active and completed programs
     public Map<String, List<FitnessProgram>> getActiveAndCompletedPrograms() {
         Map<String, List<FitnessProgram>> result = new HashMap<>();
-        result.put("Active", programs.stream().filter(FitnessProgram::isActive).collect(Collectors.toList()));
-        result.put("Completed", programs.stream().filter(p -> !p.isActive()).collect(Collectors.toList()));
+        result.put("Active", programs.stream().filter(FitnessProgram::isActive).toList());
+        result.put("Completed", programs.stream().filter(p -> !p.isActive()).toList());
         return result;
     }
+
 
     // Inner class to represent fitness programs
     public static class FitnessProgram {

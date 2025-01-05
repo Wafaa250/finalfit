@@ -7,8 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SiginSource {
-    private static final Logger LOGGER = Logger.getLogger(SiginSource.class.getName()); // إنشاء Logger
-
+    private static final Logger LOGGER = Logger.getLogger(SiginSource.class.getName()); // إعداد Logger
     private boolean found = false;
     private boolean passFound = false;
     private String workRole;
@@ -27,24 +26,21 @@ public class SiginSource {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
-
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
-
                 if (parts.length >= 4 && parts[0].equals(userName)) {
                     found = true;
-
                     if (parts[3].equals(pass)) {
                         passFound = true;
                         setCheckValid(1);
                     }
-
                     workRole = parts[4];
                     break;
                 }
             }
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error reading the accounts file", e); // استبدال printStackTrace بـ Logger
+        } 
+        catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Error reading the accounts file", e);
         }
     }
 

@@ -60,7 +60,16 @@ public class UserManagementSteps {
     public void shouldBeApprovedAsAnInstructor(String email) {
         assertEquals("Instructor Rasmiya has been approved.", resultMessage);
     }
-    
+    @Test
+    public void testAddUser() {
+        UserManagementSource ums = new UserManagementSource();
+        String result1 = ums.addUser("John", "CityX", "john@example.com", "pass123", "User");
+        assertEquals("User John added successfully.", result1);
+
+        String result2 = ums.addUser("John", "CityX", "john@example.com", "pass123", "User");
+        assertEquals("User already exists.", result2);
+    }
+
     
    
 }

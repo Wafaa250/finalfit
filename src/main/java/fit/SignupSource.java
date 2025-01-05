@@ -7,10 +7,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SignupSource {
 
     private final List<User> users = new ArrayList<>();
+    private static final Logger LOGGER = Logger.getLogger(SiginSource.class.getName()); // إنشاء Logger
 
     public String validateSignUp(String username, String email, String role, String password, String confirmPassword) {
         if (!validateUsername(username)) {
@@ -68,7 +71,7 @@ public class SignupSource {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error reading the accounts file", e); // استبدال printStackTrace بـ Logger
         }
         return false;  // البريد الإلكتروني غير موجود
     }
@@ -81,7 +84,7 @@ public class SignupSource {
             writer.write(user.getUsername() + "," + user.getLocation() + "," + user.getEmail() + "," + user.getPassword() + "," + user.getRole());
             writer.newLine();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error reading the accounts file", e); // استبدال printStackTrace بـ Logger
         }
     }
 

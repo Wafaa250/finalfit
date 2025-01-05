@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 public class ClientInteraction {
 	 private static final Logger LOGGER = Logger.getLogger(ClientInteraction.class.getName());
+	  
     // Method to send a message to a client
     public static String sendMessage(String instructor, String client, String message) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/messages.txt", true))) {

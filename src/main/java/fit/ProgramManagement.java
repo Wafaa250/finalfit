@@ -7,7 +7,7 @@ public class ProgramManagement {
 
     // File path for storing programs
     private static final String PROGRAMS_FILE = "src/main/resources/programs.txt";
-
+   
     // Method to create a new program
     public static String createProgram(String title, String duration, String goals, String price) {
         if (title == null || title.isEmpty()) {
